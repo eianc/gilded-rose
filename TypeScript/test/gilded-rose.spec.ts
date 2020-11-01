@@ -82,4 +82,22 @@ describe('Gilded Rose', function () {
             expect(items[0].quality).to.equal(0);
         });
     });
+
+    describe('Sulfuras', () => {
+        it('should match the name', () => {
+            const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", 0, 80)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].name).to.equal('Sulfuras, Hand of Ragnaros');
+        });
+        it('should keep the same quality', () => {
+            const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", 0, 80)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(specialQualityLimit);
+        });
+        it('should keep the same quality after the sell by date has passed', () => {
+            const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", -1, 80)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(specialQualityLimit);
+        });
+    });
 });
