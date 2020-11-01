@@ -17,21 +17,25 @@ describe('Gilded Rose', function () {
             const items = gildedRose.updateQuality();
             expect(items[0].name).to.equal('Aged Brie');
         });
+
         it('should increase the quality by 1, when there are less than 5 days', () => {
             const gildedRose = new GildedRose([new Item("Aged Brie", 2, 0)]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(1);
         });
+
         it('should increase the quality by 1, when there are less than 10 days', () => {
             const gildedRose = new GildedRose([new Item("Aged Brie", 9, 2)]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(3);
         });
+
         it('should not increase the quality by 1, when quality has reached its limit', () => {
             const gildedRose = new GildedRose([new Item("Aged Brie", 9, qualityLimit)]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(qualityLimit);
         });
+
         it('should increase the quality by 2 after the sell by date has passed', () => {
             const gildedRose = new GildedRose([new Item("Aged Brie", 0, 2)]);
             const items = gildedRose.updateQuality();
@@ -89,15 +93,43 @@ describe('Gilded Rose', function () {
             const items = gildedRose.updateQuality();
             expect(items[0].name).to.equal('Sulfuras, Hand of Ragnaros');
         });
+
         it('should keep the same quality', () => {
             const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", 0, 80)]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(specialQualityLimit);
         });
+
         it('should keep the same quality after the sell by date has passed', () => {
             const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", -1, 80)]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(specialQualityLimit);
+        });
+    });
+
+    describe('Normal Product', () => {
+        it('should decrease the quality by 1, when there are 5 days or less days left', () => {
+            const gildedRose = new GildedRose([new Item("Elixir of the Mongoose", 5, 7)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(6);
+        });
+
+        it('should decrease the quality by 1, when there are 10 days or less days left', () => {
+            const gildedRose = new GildedRose([new Item("+5 Dexterity Vest", 10, 20)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(19);
+        });
+
+        it('should decrease the quality by 2, after the sell by date has passed', () => {
+            const gildedRose = new GildedRose([new Item("+5 Dexterity Vest", -1, 20)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(18);
+        });
+
+        it('should not decrease the quality lower than 0, after the sell by date has passed', () => {
+            const gildedRose = new GildedRose([new Item("+5 Dexterity Vest", -1, 1)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(0);
         });
     });
 });
