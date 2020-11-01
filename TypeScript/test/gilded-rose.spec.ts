@@ -11,17 +11,39 @@ describe('Gilded Rose', function () {
         expect(items[0].name).to.equal('foo');
     });
 
+    describe('Aged Brie', () => {
+        it('should match the name', () => {
+            const gildedRose = new GildedRose([new Item("Aged Brie", 2, 0)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].name).to.equal('Aged Brie');
+        });
+        it('should increase the quality by 1, when there are less than 5 days', () => {
+            const gildedRose = new GildedRose([new Item("Aged Brie", 2, 0)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(1);
+        });
+        it('should increase the quality by 1, when there are less than 10 days', () => {
+            const gildedRose = new GildedRose([new Item("Aged Brie", 9, 2)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(3);
+        });
+        it('should not increase the quality by 1, when quality has reached its limit', () => {
+            const gildedRose = new GildedRose([new Item("Aged Brie", 9, qualityLimit)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(qualityLimit);
+        });
+        it('should increase the quality by 2 after the sell by date has passed', () => {
+            const gildedRose = new GildedRose([new Item("Aged Brie", 0, 2)]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(4);
+        });
+    });
+
     describe('Backstage passes', () => {
         it('should match the name', () => {
             const gildedRose = new GildedRose([ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20) ]);
             const items = gildedRose.updateQuality();
             expect(items[0].name).to.equal('Backstage passes to a TAFKAL80ETC concert');
-        });
-
-        it('should drop the quality to 0 after the concert', () => {
-            const gildedRose = new GildedRose([ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20) ]);
-            const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(0);
         });
 
         it('should increase the quality by 1', () => {
@@ -52,6 +74,12 @@ describe('Gilded Rose', function () {
             const gildedRose = new GildedRose([new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49)]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(qualityLimit);
+        });
+
+        it('should drop the quality to 0 after the sell by date has passed', () => {
+            const gildedRose = new GildedRose([ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(0);
         });
     });
 });
