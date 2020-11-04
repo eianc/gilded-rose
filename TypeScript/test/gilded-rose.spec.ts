@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 import { Item, GildedRose } from '../app/gilded-rose';
-import { AGED_BRIE, BACKSTAGE_PASSES, SULFURAS } from '../app/constants';
+import { AGED_BRIE, BACKSTAGE_PASSES, SULFURAS, MAX_QUALITY, MAX_QUALITY_SULFURAS } from '../app/constants';
 
 describe('Gilded Rose', function () {
-    const qualityLimit = 50;
-    const specialQualityLimit = 80;
 
     it('should foo', function() {
         const gildedRose = new GildedRose([ new Item('foo', 0, 0) ]);
@@ -32,9 +30,9 @@ describe('Gilded Rose', function () {
         });
 
         it('should not increase the quality by 1, when quality has reached its limit', () => {
-            const gildedRose = new GildedRose([new Item(AGED_BRIE, 9, qualityLimit)]);
+            const gildedRose = new GildedRose([new Item(AGED_BRIE, 9, MAX_QUALITY)]);
             const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(qualityLimit);
+            expect(items[0].quality).to.equal(MAX_QUALITY);
         });
 
         it('should increase the quality by 2 after the sell by date has passed', () => {
@@ -72,13 +70,13 @@ describe('Gilded Rose', function () {
         it('should stop increasing the quality when it reaches the limit', () => {
             const gildedRose = new GildedRose([new Item(BACKSTAGE_PASSES, 10, 49)]);
             const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(qualityLimit);
+            expect(items[0].quality).to.equal(MAX_QUALITY);
         });
 
         it('should stop increasing the quality when it reaches the limit', () => {
             const gildedRose = new GildedRose([new Item(BACKSTAGE_PASSES, 5, 49)]);
             const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(qualityLimit);
+            expect(items[0].quality).to.equal(MAX_QUALITY);
         });
 
         it('should drop the quality to 0 after the sell by date has passed', () => {
@@ -98,13 +96,13 @@ describe('Gilded Rose', function () {
         it('should keep the same quality', () => {
             const gildedRose = new GildedRose([new Item(SULFURAS, 0, 80)]);
             const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(specialQualityLimit);
+            expect(items[0].quality).to.equal(MAX_QUALITY_SULFURAS);
         });
 
         it('should keep the same quality after the sell by date has passed', () => {
             const gildedRose = new GildedRose([new Item(SULFURAS, -1, 80)]);
             const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(specialQualityLimit);
+            expect(items[0].quality).to.equal(MAX_QUALITY_SULFURAS);
         });
     });
 
