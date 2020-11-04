@@ -2,13 +2,15 @@ import { Item } from './gilded-rose';
 import Product from './products/Product';
 import AgedBrie from '../app/products/AgedBrie';
 import BackstagePasses from '../app/products/BackstagePasses';
+import Conjured from '../app/products/Conjured';
 import Sulfuras from '../app/products/Sulfuras';
-import { AGED_BRIE, BACKSTAGE_PASSES, SULFURAS } from './constants';
+import { AGED_BRIE, BACKSTAGE_PASSES, SULFURAS, CONJURED } from './constants';
 
 const productMap = {
     [`${AGED_BRIE}`]: AgedBrie,
     [`${BACKSTAGE_PASSES}`]: BackstagePasses,
-    [`${SULFURAS}`]: Sulfuras
+    [`${SULFURAS}`]: Sulfuras,
+    [`${CONJURED}`]: Conjured,
 };
 
 export const addMethods = (name: string) => {
