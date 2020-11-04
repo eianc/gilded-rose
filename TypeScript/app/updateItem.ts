@@ -2,7 +2,7 @@ import { Item } from './gilded-rose';
 import Product from './products/Product';
 import AgedBrie from '../app/products/AgedBrie';
 import BackstagePasses from '../app/products/BackstagePasses';
-import Sulfuras from '../app/products/BackstagePasses';
+import Sulfuras from '../app/products/Sulfuras';
 import { AGED_BRIE, BACKSTAGE_PASSES, SULFURAS } from './constants';
 
 const productMap = {
