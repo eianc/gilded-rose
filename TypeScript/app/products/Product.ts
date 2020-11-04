@@ -1,4 +1,5 @@
 import { Item } from '../gilded-rose';
+import {decreaseValue} from '../utilities/calculateValues';
 
 class Product {
     item: Item;
@@ -12,11 +13,11 @@ class Product {
     }
 
     calculateQuality() {
-        return this.item.quality - 1;
+       return this.hasSellByDatePassed() ? decreaseValue(this.item.quality, 2) : decreaseValue(this.item.quality, 1);
     }
 
     hasSellByDatePassed() {
-        return this.item.sellIn < 0;
+        return this.item.sellIn <= 0;
     }
 };
 
